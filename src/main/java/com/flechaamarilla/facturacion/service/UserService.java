@@ -16,7 +16,7 @@ public class UserService {
         return userRepository.findById(rfc);
     }
 
-    public void postUser(User usuario){
+    public void saveUser(User usuario){
         userRepository.save(usuario);
     }
     public void deleteUser(String rfc){

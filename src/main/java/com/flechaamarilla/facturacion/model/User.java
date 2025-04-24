@@ -12,14 +12,14 @@ public class User {
     @Id
     private String rfc;
 
-    @Column(name = "codigo_postal", nullable = false)
+    @Column(name = "codigo_postal")
     private Integer zip;
 
-    @Column(name = "regimen_fiscal", nullable = false, columnDefinition = "varchar(255)")
+    @Column(name = "regimen_fiscal", columnDefinition = "varchar(255)")
     private String taxregime;
 
-    @Column(name = "razon_social", nullable = false, columnDefinition = "varchar(255)")
-    private String companyName;
+    @Column(name = "razon_social", columnDefinition = "varchar(255)")
+    private String companyname;
 
     private String email;
 }

@@ -94,7 +94,32 @@ public class FacturaApiController extends BaseController {
         try {
             byte[] fileBytes = facturaApiService.getInvoiceFile(invoiceId, format);
 
-            return new ResponseEntity<Response>(new Response(true, "Success", fileBytes), HttpStatus.OK);
+            if (fileBytes != null && fileBytes.length > 0) {
+                MediaType contentType = null;
+                String lowerCaseFormat = format.toLowerCase().trim();
+                switch (lowerCaseFormat) {
+                    case "pdf":
+                        contentType = MediaType.APPLICATION_PDF;
+                        break;
+                    case "xml":
+                        contentType = MediaType.APPLICATION_XML;
+                        break;
+                    case "zip":
+                        contentType = new MediaType("application", "zip");
+                        break;
+                }
+
+                String filename = String.format("factura-%s.%s", invoiceId, lowerCaseFormat);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(contentType);
+                headers.setContentLength(fileBytes.length);
+                headers.setContentDispositionFormData("attachment", filename);
+
+                return new ResponseEntity<>(fileBytes, headers, HttpStatus.OK);
+            }
+            return new ResponseEntity<Response>(new Response(false, "Error al enviar archivo", null), HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<Response>(new Response(false, "Error interno del servidor al procesar la descarga.", null), HttpStatus.OK);
         }

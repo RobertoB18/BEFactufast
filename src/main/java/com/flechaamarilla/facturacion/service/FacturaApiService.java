@@ -36,7 +36,7 @@ public class FacturaApiService {
         String endpoint = generalConfig.getFacturapi() + "/invoices";
 
         InvoiceBody.InvoiceBodyCustomer invoiceBodyCustomer = new InvoiceBody.InvoiceBodyCustomer();
-        invoiceBodyCustomer.setLegal_name(userDb.getCompanyName());
+        invoiceBodyCustomer.setLegal_name(userDb.getCompanyname());
         invoiceBodyCustomer.setTax_system("601");
         invoiceBodyCustomer.setTax_id(userDb.getRfc());
 

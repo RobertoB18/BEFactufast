@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
@@ -32,10 +33,16 @@ public class UserContoller extends BaseController{
     }
 
     @PostMapping("/user")
-    public ResponseEntity<Response> postUser(@RequestBody User usuario){
+    public ResponseEntity<Response> postUser(@RequestBody Map<String, Object> request){
         try {
-            userService.postUser(usuario);
-            return new ResponseEntity<Response>(new Response(true, "Success", usuario), HttpStatus.OK);
+            User userToSave = new User();
+            userToSave.setRfc((String) request.get("rfc"));
+            userToSave.setZip((Integer) request.get("zip"));
+            userToSave.setEmail((String) request.get("email"));
+            userToSave.setTaxregime((String) request.get("taxregime"));
+            userToSave.setCompanyname((String) request.get("companyname"));
+            userService.saveUser(userToSave);
+            return new ResponseEntity<Response>(new Response(true, "Success", userToSave), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<Response>(new Response(false, "Error " + e.getMessage(), null), HttpStatus.OK);
         }
