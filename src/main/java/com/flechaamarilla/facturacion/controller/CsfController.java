@@ -40,10 +40,10 @@ public class CsfController extends BaseController {
             if (textoExtraido != null && !textoExtraido.isBlank()) {
                 Map<String, Object> datosExtraidos = parsearDatosCsf(textoExtraido);
 
-                if (datosExtraidos.isEmpty() || !datosExtraidos.containsKey("rfc") || !datosExtraidos.containsKey("codigoPostal")) {
+                if (datosExtraidos.isEmpty() || !datosExtraidos.containsKey("rfc") || !datosExtraidos.containsKey("zip")) {
                     return new ResponseEntity<Response>(new Response(false, "No se pudieron extraer los datos fiscales clave (RFC, CP) del documento. Verifique el archivo." , null), HttpStatus.OK);
                 } else {
-                    return new ResponseEntity<Response>(new Response(false, "Success" , datosExtraidos), HttpStatus.OK);
+                    return new ResponseEntity<Response>(new Response(true, "Success" , datosExtraidos), HttpStatus.OK);
                 }
 
             } else {
@@ -83,7 +83,7 @@ public class CsfController extends BaseController {
                 String nombre = nombreCompletoMatcher.group(1).trim();
                 String apPaterno = nombreCompletoMatcher.group(2).trim();
                 String apMaterno = nombreCompletoMatcher.group(3).trim();
-                datos.put("companyName", nombre + " " + apPaterno + " " + apMaterno);
+                datos.put("companyname", nombre + " " + apPaterno + " " + apMaterno);
             }
         }
 
